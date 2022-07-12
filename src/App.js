@@ -1,36 +1,80 @@
 import UserList from "./component/UserList";
-import {useRef} from "react";
+import { useRef, useState } from "react";
+import CreateUser from "./component/CreateUser";
+
+// 배열에 변화를 줄 땐, 객체와 마찬가지로 불변성을 지켜야 한다.
+// 배열의 Push, Splice, Sort 등 직접 수정하는 함수를 그냥 사용해선 안된다.
+// 사용할 경우에는 스프레드 문법을 이용하여 객체를 복사한 뒤, 위 함수를 사용하거나,
+// 새로운 배열을 리턴하는 함수를 사용한다.
 
 function App() {
-  const users = [
+  // focus 추가
+  const focusRef = useRef("");
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
+  });
+
+  const { username, email } = inputs;
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const [users, setUsers] = useState([
     {
       id: 1,
-      username: 'velopert',
-      email: 'public.velopert@gmail.com'
+      username: "velopert",
+      email: "public.velopert@gmail.com",
     },
     {
       id: 2,
-      username: 'tester',
-      email: 'tester@example.com'
+      username: "tester",
+      email: "tester@example.com",
     },
     {
       id: 3,
-      username: 'liz',
-      email: 'liz@example.com'
-    }
-  ];
-  // useRef를 사용하여 변수를 관리.
-  // useRef로 관리하는 변수는, 값이 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
-  // useRef로 관리하는 변수는, 설정 후 바로 조회가 가능하지만,
-  // 일반 컴포넌트는 렌더링이 된 이후에 상태를 조회할 수 있다.
+      username: "liz",
+      email: "liz@example.com",
+    },
+  ]);
   const nextId = useRef(4);
-  const onCreate = () => {
+
+  const handleOnCreate = () => {
+    const user = {
+      id: nextId.current,
+      username,
+      email,
+    };
+
+    setUsers(users.concat(user));
+    // setUsers([...users,user]); 배열 복사
+
+    setInputs({
+      username: "",
+      email: "",
+    });
     nextId.current += 1;
-  }
+    focusRef.current.focus();
+  };
 
   return (
     <div className="App">
-      <UserList users={users}></UserList>
+      <>
+        <CreateUser
+          username={username}
+          email={email}
+          handleOnChange={handleOnChange}
+          handleOnCreate={handleOnCreate}
+          focusRef={focusRef}
+        ></CreateUser>
+        <UserList users={users}></UserList>
+      </>
     </div>
   );
 }
