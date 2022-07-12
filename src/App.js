@@ -1,16 +1,11 @@
-import Hello from "./component/Hello";
-import Wrapper from "./component/Wrapper";
+import Counter from "./component/Counter";
 
 // props 값을 생략하면 true
 // isSpecial={true}
 function App() {
   return (
     <div className="App">
-      <Wrapper>
-    <Hello name={"React"} color={{backgroundColor : "red"}} isSpecial></Hello>
-      <Hello></Hello>
-
-      </Wrapper>
+      <Counter></Counter>
     </div>
   );
 }
