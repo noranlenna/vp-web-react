@@ -1,11 +1,9 @@
-import Counter from "./component/Counter";
+import InputSample from "./component/InputSample";
 
-// props 값을 생략하면 true
-// isSpecial={true}
 function App() {
   return (
     <div className="App">
-      <Counter></Counter>
+      <InputSample></InputSample>
     </div>
   );
 }
