@@ -26,18 +26,22 @@ function App() {
       id: 1,
       username: "velopert",
       email: "public.velopert@gmail.com",
+      active: true,
     },
     {
       id: 2,
       username: "tester",
       email: "tester@example.com",
+      active: false,
     },
     {
       id: 3,
       username: "liz",
       email: "liz@example.com",
+      active: true,
     },
   ]);
+
   const nextId = useRef(4);
 
   const handleOnCreate = () => {
@@ -64,6 +68,15 @@ function App() {
     );
   };
 
+  // toggle로 들어오는 id ->
+  const handelOnToggle = (id) => {
+    setUsers(
+      users.map((user) => {
+        return user.id === id ? { ...user, active: !user.active } : user;
+      })
+    );
+  };
+
   return (
     <div className="App">
       <>
@@ -74,7 +87,11 @@ function App() {
           handleOnCreate={handleOnCreate}
           focusRef={focusRef}
         ></CreateUser>
-        <UserList users={users} handleOnRemove={handleOnRemove}></UserList>
+        <UserList
+          users={users}
+          handleOnRemove={handleOnRemove}
+          handleOnToggle={handelOnToggle}
+        ></UserList>
       </>
     </div>
   );

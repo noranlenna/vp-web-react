@@ -1,18 +1,20 @@
 import React from "react";
 
+// CSS cursor : pointer로 하면 손가락 모양으로 변한다.
+// 꼭 기억하기. onClick 프로퍼티에 파라메터가 필요한 함수를 실행시킬 땐 arrow function을 써서 함수 전달하기.
 
-// onClick={extenalFunc()} 형식으로, 함수 자체를 실행시키면,
-// 컴포넌트가 렌더링 되는 동시에 실행이 되버린다.
-// 그래서 ()를 빼서 즉시실행 시키기 않도록 한다.
-// 하지만, function에 파라메터가 필요할 땐,
-// onClick={paramFunc(somePara)} 형태로 하면 바로 실행이 되버리므로,
-// onClick에 콜백 함수로 처리를 하고(Arrow Function), 함수가 실행될 때,
-// user.id를 건네주어 처리하는 방식으로 한다.
-
-function User({ user, handleOnRemove }) {
+function User({ user, handleOnRemove, handleOnToggle }) {
   return (
     <div>
-      <b>{user.username}</b> <span>({user.email})</span>
+      <b
+        style={{ cursor: "pointer", color: user.active ? "green" : "black" }}
+        onClick={() => {
+          handleOnToggle(user.id);
+        }}
+      >
+        {user.username}
+      </b>{" "}
+      <span>({user.email})</span>
       <button
         type="button"
         onClick={() => {
@@ -25,11 +27,17 @@ function User({ user, handleOnRemove }) {
   );
 }
 
-function UserList({ users, handleOnRemove }) {
+function UserList({ users, handleOnRemove, handleOnToggle }) {
+  // users를 user 컴포넌트로.
   return (
     <div>
       {users.map((user) => (
-        <User user={user} key={user.id} handleOnRemove={handleOnRemove} />
+        <User
+          user={user}
+          key={user.id}
+          handleOnRemove={handleOnRemove}
+          handleOnToggle={handleOnToggle}
+        />
       ))}
     </div>
   );
