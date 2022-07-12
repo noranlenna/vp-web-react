@@ -1,9 +1,10 @@
-import InputSample from "./component/InputSample";
+
+import UserList from "./component/UserList";
 
 function App() {
   return (
     <div className="App">
-      <InputSample></InputSample>
+      <UserList></UserList>
     </div>
   );
 }
